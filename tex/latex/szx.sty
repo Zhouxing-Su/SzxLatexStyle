@@ -76,6 +76,9 @@
 %% for documenting this style file (usage of new commands).
 \RequirePackage{comment}
 
+%% argument handling in latex command.
+\RequirePackage{xparse}
+
 %% comments and task list display.
 %\RequirePackage[disable]{todonotes}
 %\RequirePackage[draft]{todonotes}
@@ -111,7 +114,7 @@
 \geometry{left=3cm, right=3cm, top=2.5cm, bottom=3.5cm, footskip=1cm}
 
 %% section title style.
-\RequirePackage{sectsty}
+%\RequirePackage{sectsty} % it has no effect on table of content.
 
 %% text indent.
 \RequirePackage{indentfirst}
@@ -217,15 +220,14 @@
 \fi
 
 \let\@szx@oldsection\section
-\newcommand{\@szx@sectionstar}[1]{\@szx@oldsection*{\szxtitle{#1}}}
-\newcommand{\@szx@section}[1]{\@szx@oldsection{\szxtitle{#1}}}
-\renewcommand{\section}{\@ifstar\@szx@sectionstar\@szx@section}
-
 \let\@szx@oldsubsection\subsection
-\renewcommand{\subsection}[1]{\@szx@oldsubsection{\szxtitle{#1}}}
-
 \let\@szx@oldsubsubsection\subsubsection
-\renewcommand{\subsubsection}[1]{\@szx@oldsubsubsection{\szxtitle{#1}}}
+\RenewDocumentCommand{\section}{som}{\IfBooleanTF{#1}{\@szx@oldsection*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\@szx@oldsection{\szxtitle{#3}}}{\@szx@oldsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
+\RenewDocumentCommand{\subsection}{som}{\IfBooleanTF{#1}{\@szx@oldsubsection*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\@szx@oldsubsection{\szxtitle{#3}}}{\@szx@oldsubsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
+\RenewDocumentCommand{\subsubsection}{som}{\IfBooleanTF{#1}{\@szx@oldsubsubsection*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\@szx@oldsubsubsection{\szxtitle{#3}}}{\@szx@oldsubsubsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
 
 \let\@szx@oldcaption\caption
 \newcommand{\szxcaption}[2]{\@szx@oldcaption{\szxtitle{#1} #2}}
