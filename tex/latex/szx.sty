@@ -501,7 +501,6 @@
 	}{}
 }{}
 
-
 %% the reference is not part of the sentence.
 \newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
 
@@ -516,3 +515,11 @@
 	\newcommand{\szxreftab}[1]{Table \ref{#1}}
 	\newcommand{\szxreffig}[1]{Figure \ref{#1}}
 \fi
+
+
+%%%% character layout.
+%% symbol overlap. (http://tex.stackexchange.com/a/12900/101988)
+\newcommand{\overlap}[2]{\mathrel{\setbox0\hbox{#1}\rlap{\hbox to \wd0{\hss\footnotesize#2\hss}}\box0}}
+\begin{comment}
+	$\overlap{$\rightarrow$}{?}$
+\end{comment}

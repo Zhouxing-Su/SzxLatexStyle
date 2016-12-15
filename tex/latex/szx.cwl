@@ -1,4 +1,4 @@
-# http://texstudio.sourceforge.net/manual/current/usermanual_en.html#CWLDESCRIPTION
+# (http://texstudio.sourceforge.net/manual/current/usermanual_en.html#CWLDESCRIPTION)
 # Classifier	Meaning
 # *	unusual command which is used for completion only in with the "all" tab. This marker may be followed by other classifications.
 # S	do not show in completer at all. This marker may be followed by other classifications.
@@ -67,3 +67,5 @@
 \szxhl[Color]{ToHighlight}#D
 \szxul[Color]{ToUnderline}#D
 \szxdl[Color]{ToDeleteline}#D
+
+\overlap{Background}{Foreground}#m
