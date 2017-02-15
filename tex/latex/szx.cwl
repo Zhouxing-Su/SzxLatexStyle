@@ -38,6 +38,8 @@
 \end{szxfigure}#\figure
 \begin{szxtable}#\tabular
 \end{szxtable}#\tabular
+\begin{szxalgorithm}#\algorithm
+\end{szxalgorithm}#\algorithm
 \szxtrule#t
 \szxmrule#t
 \szxbrule#t
@@ -63,6 +65,7 @@
 \szxrefsec{sec:SecLabel}#r
 \szxreftab{tab:TabLabel}#r
 \szxreffig{fig:FigLabel}#r
+\szxrefalg{fig:AlgLabel}#r
 
 \szxhl[Color]{ToHighlight}#D
 \szxul[Color]{ToUnderline}#D

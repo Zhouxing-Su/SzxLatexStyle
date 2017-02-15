@@ -431,7 +431,7 @@
 
 %%%% figure.
 %% centered figure with caption.
-\newenvironment{szxfigure}[1][t]{
+\newenvironment{szxfigure}[1][!h]{
 	\begin{figure*}[#1]
 		\centering
 }{
@@ -441,7 +441,7 @@
 
 %%%% table.
 %% centered table with caption and note.
-\newenvironment{szxtable}[1][t]{
+\newenvironment{szxtable}[1][!h]{
 	\begin{table*}[#1]
 		\centering
 		\begin{threeparttable}
@@ -467,6 +467,17 @@
 		\end{tablenotes}
 	\end{szxtable}
 \end{comment}
+
+
+%%%% algorithm.
+\newenvironment{szxalgorithm}[1][!h]{
+	\begin{algorithm}[#1]
+		\centering
+		\begin{algorithmic}
+}{
+		\end{algorithmic}
+	\end{algorithm}
+}
 
 %% basic rules.
 %\newcommand{\szxtrule}{\hline}
@@ -509,11 +520,15 @@
 	\newcommand{\szxrefsec}[1]{\ref{#1} 节}
 	\newcommand{\szxreftab}[1]{表 \ref{#1}}
 	\newcommand{\szxreffig}[1]{图 \ref{#1}}
+	\newcommand{\szxrefequ}[1]{公式 \ref{#1}}
+	\newcommand{\szxrefalg}[1]{算法 \ref{#1}}
 \else
 	\newcommand{\szxrefsec}[1]{\S \ref{#1}}
 	%\newcommand{\szxrefsec}[1]{Section \ref{#1}}
 	\newcommand{\szxreftab}[1]{Table \ref{#1}}
 	\newcommand{\szxreffig}[1]{Figure \ref{#1}}
+	\newcommand{\szxrefequ}[1]{Equation \ref{#1}}
+	\newcommand{\szxrefalg}[1]{Algorithm \ref{#1}}
 \fi
 
 
