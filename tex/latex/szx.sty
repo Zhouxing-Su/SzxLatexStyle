@@ -1,4 +1,4 @@
-% !TeX encoding = UTF-8
+﻿% !TeX encoding = UTF-8
 % !TeX spellcheck = en_US
 
 
@@ -173,9 +173,11 @@
 \RequirePackage{algorithmic}
 \RequirePackage{algorithm}
 \if@szx@SimplifiedChinese
+	\renewcommand{\ALG@name}{算法}
 	\renewcommand{\algorithmicrequire}{\textbf{输入:}}
 	\renewcommand{\algorithmicensure}{\textbf{输出:}}
 \else
+%	\renewcommand{\ALG@name}{Algorithm}
 	\renewcommand{\algorithmicrequire}{\textbf{Input:}}
 	\renewcommand{\algorithmicensure}{\textbf{Output:}}
 \fi
