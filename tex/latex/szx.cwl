@@ -47,6 +47,9 @@
 \szxnocap{NoCapitalizationWord}
 \szxtitle{Title}
 
+\szxnewsymbol{Symbol}
+\szxrenewsymbol{Symbol}
+
 \szxcaption{Title}{\label{TitleLabel}}
 # \szxsection0{Title}#L2
 # \szxsection1{Title}#L3
