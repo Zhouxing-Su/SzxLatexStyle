@@ -169,6 +169,16 @@
 \RequirePackage{amssymb}
 %\RequirePackage{amsthm}
 
+%% defining math symbols.
+\newcommand{\szxnewsymbol}[1]{\expandafter\newcommand\csname#1\endcsname{\relax\ifmmode\mathit{#1}\else\textit{#1}\fi}}
+\newcommand{\szxrenewsymbol}[1]{\expandafter\renewcommand\csname#1\endcsname{\relax\ifmmode\mathit{#1}\else\textit{#1}\fi}}
+\begin{comment}
+	\szxnewsymbol{Ps}
+	\szxrenewsymbol{Pr}
+	
+	\Ps \Pr $\Ps \Pr$
+\end{comment}
+
 %% pseudo code form.
 \RequirePackage{algorithmic}
 \RequirePackage{algorithm}
