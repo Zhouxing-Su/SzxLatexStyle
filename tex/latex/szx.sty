@@ -484,6 +484,21 @@
 \end{comment}
 
 
+%%%% itemize.
+%% configurable itemize environment.
+\newenvironment{szxitemize}{
+%	\renewcommand\labelitemi{$\bullet$}
+	\renewcommand\labelitemii{--}
+%	\renewcommand\labelitemiii{$\star$}
+	\begin{itemize}
+%	    \setlength{\itemsep}{0pt}
+%	    \setlength{\parskip}{0pt}
+%	    \setlength{\parsep}{0pt}
+}{
+	\end{itemize}
+}
+
+
 %%%% algorithm.
 \newenvironment{szxalgorithm}[1][!h]{
 	\begin{algorithm}[#1]

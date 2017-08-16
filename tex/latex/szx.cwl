@@ -38,6 +38,8 @@
 \end{szxfigure}#\figure
 \begin{szxtable}#\tabular
 \end{szxtable}#\tabular
+\begin{szxitemize}#\itemize
+\end{szxitemize}#\itemize
 \begin{szxalgorithm}#\algorithm
 \end{szxalgorithm}#\algorithm
 \szxtrule#t
