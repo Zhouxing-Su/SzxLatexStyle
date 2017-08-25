@@ -1,0 +1,132 @@
+\documentclass{article}
+
+\usepackage{szx}
+
+\usepackage{cleveref}
+%\crefname{section}{section}{\S}
+\newcommand{\crefrangeconjunction}{--}
+\newcommand{\crefrangepreconjunction}{ pre }
+\newcommand{\crefrangepostconjunction}{ post }
+\newcommand{\crefpairconjunction}{ pair }
+\newcommand{\crefmiddleconjunction}{ mid }
+\newcommand{\creflastconjunction}{ last }
+
+
+\begin{document}
+
+\tableofcontents
+
+~\\
+\cref{s7}\\
+\Cref{s5}\\
+\\
+\cref{s4,s5}\\
+\Cref{s1,s5}\\
+\\
+\cref{s1,s2,s3}\\
+\Cref{s1,s3,s4}\\
+\Cref{s2,s3,s6}\\
+\\
+\cref{s1,s2,s3,s4}\\
+\Cref{s1,s2,s3,s6}\\
+\Cref{s1,s2,s5,s6}\\
+\Cref{s1,s2,s4,s6}\\
+\Cref{s1,s3,s5,s7}\\
+\\
+\\
+\cref{e8}\\
+\Cref{e5}\\
+\\
+\cref{e4,e5}\\
+\Cref{e1,e5}\\
+\\
+\cref{e1,e2,e3}\\
+\Cref{e1,e3,e4}\\
+\Cref{e2,e3,e6}\\
+\\
+\cref{e1,e2,e3,e4}\\
+\Cref{e1,e2,e3,e6}\\
+\Cref{e1,e2,e5,e6}\\
+\Cref{e1,e2,e4,e6}\\
+\Cref{e1,e3,e5,e7}\\
+\\
+\\
+\cref{a1}\\
+\Cref{a1,a1}\\
+\Cref{a1,a1,a1}\\
+
+\ref{alg:a2}
+
+\szxsection{sec1}
+\label{s1}
+
+\szxsubsection{sub sec 1}
+
+\szxsubsubsection{sub sub sec 1}
+
+\begin{equation}
+\label{e1}
+\end{equation}
+
+\begin{algorithm}
+	\caption{Some Algorithm}{\label{a1}}
+	\begin{algorithmic}[1]
+		\REQUIRE Instance
+		\ENSURE Solution
+        \STATE Solve
+	\end{algorithmic}
+\end{algorithm}
+
+\section{s2}
+\label{s2}
+\begin{equation}
+\label{e2}
+\end{equation}
+
+\href{http://suzhouxing.github.io}{szx}
+
+\section{s3}
+\label{s3}
+\begin{equation}
+\label{e3}
+\end{equation}
+
+\begin{algorithm}
+	\caption{Some Algorithm}{\label{alg:a2}}
+	\begin{algorithmic}[1]
+		\REQUIRE Instance
+		\ENSURE Solution
+        \STATE Solve
+	\end{algorithmic}
+\end{algorithm}
+
+\section{s4}
+\label{s4}
+\begin{equation}
+\label{e4}
+\end{equation}
+
+\section{s5}
+\label{s5}
+\begin{equation}
+\label{e5}
+\end{equation}
+
+\section{s6}
+\label{s6}
+\begin{equation}
+\label{e6}
+\end{equation}
+
+\begin{equation}
+\label{e7}
+\end{equation}
+
+\begin{equation}
+\label{e8}
+\end{equation}
+
+\section{s7}
+\label{s7}
+
+\end{document}

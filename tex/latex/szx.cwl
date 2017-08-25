@@ -53,9 +53,9 @@
 \szxrenewsymbol{Symbol}
 
 \szxcaption{Title}{\label{TitleLabel}}
-# \szxsection0{Title}#L2
-# \szxsection1{Title}#L3
-# \szxsection2{Title}#L4
+\szxsection{Title}#L2
+\szxsubsection{Title}#L3
+\szxsubsubsection{Title}#L4
 
 \szxtodo{ToDo}#D
 \szxextend{ToExtend}#D

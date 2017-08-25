@@ -149,20 +149,6 @@
 %\RequirePackage{soul}
 
 
-%%%% reference and citation.
-%% hyper links display and bookmarks generation for PDF documents.
-\RequirePackage[colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black]{hyperref}
-
-%% determine whether the bibliography gets an section number and appears in table of contents.
-\RequirePackage[nottoc]{tocbibind} % nottoc,numbib
-\begin{comment}
-	\section*{Abstract}
-	\addcontentsline{toc}{section}{Abstract} % add items to table of contents.
-	
-	\section{Introduction} % add items to table of contents.
-\end{comment}
-
-
 %%%% special text blocks.
 %% math fonts and symbols and relative environments (split).
 \RequirePackage{amsmath}
@@ -178,6 +164,9 @@
 	
 	\Ps \Pr $\Ps \Pr$
 \end{comment}
+
+%% customized enumerate or itemize.
+\RequirePackage[inline, shortlabels]{enumitem}
 
 %% pseudo code form.
 \RequirePackage{algorithmic}
@@ -231,18 +220,14 @@
 	\szxnocap{in} \szxnocap{out} \szxnocap{between}	\szxnocap{up} \szxnocap{down} \szxnocap{above} \szxnocap{below} \szxnocap{under}
 \fi
 
-\let\@szx@oldsection\section
-\let\@szx@oldsubsection\subsection
-\let\@szx@oldsubsubsection\subsubsection
-\RenewDocumentCommand{\section}{som}{\IfBooleanTF{#1}{\@szx@oldsection*{\szxtitle{#3}}}
-	{\IfNoValueTF{#2}{\@szx@oldsection{\szxtitle{#3}}}{\@szx@oldsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
-\RenewDocumentCommand{\subsection}{som}{\IfBooleanTF{#1}{\@szx@oldsubsection*{\szxtitle{#3}}}
-	{\IfNoValueTF{#2}{\@szx@oldsubsection{\szxtitle{#3}}}{\@szx@oldsubsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
-\RenewDocumentCommand{\subsubsection}{som}{\IfBooleanTF{#1}{\@szx@oldsubsubsection*{\szxtitle{#3}}}
-	{\IfNoValueTF{#2}{\@szx@oldsubsubsection{\szxtitle{#3}}}{\@szx@oldsubsubsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
+\NewDocumentCommand{\szxsection}{som}{\IfBooleanTF{#1}{\section*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\section{\szxtitle{#3}}}{\section[\szxtitle{#2}]{\szxtitle{#3}}}}}
+\NewDocumentCommand{\szxsubsection}{som}{\IfBooleanTF{#1}{\subsection*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\subsection{\szxtitle{#3}}}{\subsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
+\NewDocumentCommand{\szxsubsubsection}{som}{\IfBooleanTF{#1}{\subsubsection*{\szxtitle{#3}}}
+	{\IfNoValueTF{#2}{\subsubsection{\szxtitle{#3}}}{\subsubsection[\szxtitle{#2}]{\szxtitle{#3}}}}}
 
-\let\@szx@oldcaption\caption
-\newcommand{\szxcaption}[2]{\@szx@oldcaption{\szxtitle{#1} #2}}
+\newcommand{\szxcaption}[2]{\caption{\szxtitle{#1} #2}}
 \begin{comment}
 	% keep \label in parameter to help IDE generate correct hints.
 	\szxcaption{Some title}{\label{tab:SomeLabel}}
@@ -389,6 +374,40 @@
 		\draw[pile] (out) -- (B);
 	\end{tikzpicture}
 \end{comment}
+
+
+%%%% reference and citation.
+%% determine whether the bibliography gets an section number and appears in table of contents.
+\RequirePackage[nottoc]{tocbibind} % nottoc,numbib
+\begin{comment}
+	\section*{Abstract}
+	\addcontentsline{toc}{section}{Abstract} % add items to table of contents.
+	
+	\section{Introduction} % add items to table of contents.
+\end{comment}
+
+%% hyper links display and bookmarks generation for PDF documents.
+\RequirePackage[colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black]{hyperref}
+
+%% compress and sort multiple references automatically.
+\RequirePackage{cleveref}
+\if@szx@SimplifiedChinese
+	\newcommand{\crefrangeconjunction}{ 至 } % 到 - --
+%	\newcommand{\crefrangepreconjunction}{}
+%	\newcommand{\crefrangepostconjunction}{}
+	\newcommand{\crefpairconjunction}{ 和 } % 与
+	\newcommand{\crefmiddleconjunction}{, } % 、 ，
+	\newcommand{\creflastconjunction}{ 和 } % 与 及
+\else
+%	\newcommand{\crefrangeconjunction}{ to }
+%	\newcommand{\crefrangepreconjunction}{}
+%	\newcommand{\crefrangepostconjunction}{}
+%	\newcommand{\crefpairconjunction}{ and }
+%	\newcommand{\crefmiddleconjunction}{, }
+%	\newcommand{\creflastconjunction}{ and }
+\fi
+
+
 
 
 %%%%%%%% new commands and environments. %%%%%%%%
@@ -547,18 +566,27 @@
 
 %% reference items.
 \if@szx@SimplifiedChinese
-	\newcommand{\szxrefsec}[1]{\ref{#1} 节}
-	\newcommand{\szxreftab}[1]{表 \ref{#1}}
-	\newcommand{\szxreffig}[1]{图 \ref{#1}}
-	\newcommand{\szxrefequ}[1]{公式 \ref{#1}}
-	\newcommand{\szxrefalg}[1]{算法 \ref{#1}}
+	\newcommand{\szxrefsec}[1]{\labelcref{#1} 节}
+	\newcommand{\szxreftab}[1]{表 \labelcref{#1}}
+	\newcommand{\szxreffig}[1]{图 \labelcref{#1}}
+	\newcommand{\szxrefequ}[1]{公式 \labelcref{#1}}
+	\newcommand{\szxrefalg}[1]{算法 \labelcref{#1}}
+%	\newcommand{\szxrefsec}[1]{\ref{#1} 节}
+%	\newcommand{\szxreftab}[1]{表 \ref{#1}}
+%	\newcommand{\szxreffig}[1]{图 \ref{#1}}
+%	\newcommand{\szxrefequ}[1]{公式 \ref{#1}}
+%	\newcommand{\szxrefalg}[1]{算法 \ref{#1}}
 \else
-	\newcommand{\szxrefsec}[1]{\S \ref{#1}}
-	%\newcommand{\szxrefsec}[1]{Section \ref{#1}}
-	\newcommand{\szxreftab}[1]{Table \ref{#1}}
-	\newcommand{\szxreffig}[1]{Figure \ref{#1}}
-	\newcommand{\szxrefequ}[1]{Equation \ref{#1}}
-	\newcommand{\szxrefalg}[1]{Algorithm \ref{#1}}
+	\newcommand{\szxrefsec}[1]{\Cref{#1}} % \S
+	\newcommand{\szxreftab}[1]{\Cref{#1}}
+	\newcommand{\szxreffig}[1]{\Cref{#1}}
+	\newcommand{\szxrefequ}[1]{\Cref{#1}}
+	\newcommand{\szxrefalg}[1]{\Cref{#1}}
+%	\newcommand{\szxrefsec}[1]{Section \ref{#1}}
+%	\newcommand{\szxreftab}[1]{Table \ref{#1}}
+%	\newcommand{\szxreffig}[1]{Figure \ref{#1}}
+%	\newcommand{\szxrefequ}[1]{Equation \ref{#1}}
+%	\newcommand{\szxrefalg}[1]{Algorithm \ref{#1}}
 \fi
 
 
