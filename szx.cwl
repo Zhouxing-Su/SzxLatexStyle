@@ -67,10 +67,12 @@
 \szxspecialsegment{SegmentLabel}
 
 \upcite{RefLabel}#c
+\szxref{RefLabel}#r
 \szxrefsec{sec:SecLabel}#r
 \szxreftab{tab:TabLabel}#r
 \szxreffig{fig:FigLabel}#r
-\szxrefalg{fig:AlgLabel}#r
+\szxrefequ{equ:EquLabel}#r
+\szxrefalg{alg:AlgLabel}#r
 
 \szxhl[Color]{ToHighlight}#D
 \szxul[Color]{ToUnderline}#D
