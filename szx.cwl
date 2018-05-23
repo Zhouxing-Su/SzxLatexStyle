@@ -69,6 +69,7 @@
 \upcite{RefLabel}#c
 \szxref{RefLabel}#r
 \szxrefsec{sec:SecLabel}#r
+\szxrefssec{sec:SecLabel}#r
 \szxreftab{tab:TabLabel}#r
 \szxreffig{fig:FigLabel}#r
 \szxrefequ{equ:EquLabel}#r

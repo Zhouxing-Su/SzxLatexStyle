@@ -569,22 +569,26 @@
 %% reference items.
 \if@szx@SimplifiedChinese
 	\newcommand{\szxrefsec}[1]{\labelcref{#1} 节}
+	\newcommand{\szxrefssec}[1]{\labelcref{#1} 节}
 	\newcommand{\szxreftab}[1]{表 \labelcref{#1}}
 	\newcommand{\szxreffig}[1]{图 \labelcref{#1}}
 	\newcommand{\szxrefequ}[1]{公式 \labelcref{#1}}
 	\newcommand{\szxrefalg}[1]{算法 \labelcref{#1}}
 %	\newcommand{\szxrefsec}[1]{\ref{#1} 节}
+%	\newcommand{\szxrefssec}[1]{\ref{#1} 节}
 %	\newcommand{\szxreftab}[1]{表 \ref{#1}}
 %	\newcommand{\szxreffig}[1]{图 \ref{#1}}
 %	\newcommand{\szxrefequ}[1]{公式 (\ref{#1})}
 %	\newcommand{\szxrefalg}[1]{算法 \ref{#1}}
 \else
-	\newcommand{\szxrefsec}[1]{\Cref{#1}} % \S
+	\newcommand{\szxrefsec}[1]{\Cref{#1}}
+	\newcommand{\szxrefssec}[1]{\Cref{#1}}
 	\newcommand{\szxreftab}[1]{\Cref{#1}}
 	\newcommand{\szxreffig}[1]{\Cref{#1}}
 	\newcommand{\szxrefequ}[1]{\Cref{#1}}
 	\newcommand{\szxrefalg}[1]{\Cref{#1}}
-%	\newcommand{\szxrefsec}[1]{Section \ref{#1}}
+%	\newcommand{\szxrefsec}[1]{Section \ref{#1}} % \S
+%	\newcommand{\szxrefsec}[1]{Section \ref{#1}} % Subsection \S \S\S
 %	\newcommand{\szxreftab}[1]{Table \ref{#1}}
 %	\newcommand{\szxreffig}[1]{Figure \ref{#1}}
 %	\newcommand{\szxrefequ}[1]{Equation (\ref{#1})}
