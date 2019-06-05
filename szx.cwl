@@ -62,6 +62,10 @@
 \szxtofill{ToFill}#D
 \szxoption{Option1}{Option2}#D
 
+\szxadd{Version}{Content}
+\szxdelete{Version}{Content}
+\szxreplace{Version}{NewContent}{OldContent}
+
 \szxexcludesegment{SegmentLabel}
 \szxincludesegment{SegmentLabel}
 \szxspecialsegment{SegmentLabel}

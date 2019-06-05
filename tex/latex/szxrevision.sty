@@ -1,0 +1,35 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+
+
+% https://tex.stackexchange.com/questions/61598/new-command-with-cases-conditionals-if-thens
+% https://jansoehlke.com/2010/06/strikethrough-in-latex/
+
+
+\ProvidesPackage{szxrevision}
+
+
+
+
+%%%%%%%% code from the original poster. %%%%%%%%
+\RequirePackage{ifthen}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{comment}
+
+
+%%%%%%%% wrapper commands and environments. %%%%%%%%
+%% current version.
+\newcommand{\CurrentVersion}{}
+
+%% content highlighting.
+\newcommand{\szxadd}[2]{\ifthenelse{\equal{#1}{\CurrentVersion}}{{\color{red}{#2}}}{#2}}
+\newcommand{\szxdelete}[2]{\ifthenelse{\equal{#1}{\CurrentVersion}}{{\color{blue}\sout{#1}}}{}}
+\newcommand{\szxreplace}[3]{\ifthenelse{\equal{#1}{\CurrentVersion}}{{\color{red}{#2}\color{blue}\sout{#3}}}{#2}}
+
+\begin{comment}
+\renewcommand{\CurrentVersion}{r2} % r1 -> r2
+
+\szxadd{r1}{new content}
+\szxdelete{r2}{old content}
+\szxreplace{}{new content}{old content}
+\end{comment}
