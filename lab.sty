@@ -1,0 +1,729 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+
+
+% a public common command or environment with the same meaning and usage does not come with 'szx' prefix.
+% a public common command or environment with different meaning or usage comes with 'szx' prefix.
+% an public uncommon command or environment comes with 'szx' prefix.
+% an private command comes with '@szx@' prefix.
+
+
+\ProvidesPackage{lab}
+
+
+
+
+%%%%%%%% options. %%%%%%%%
+%% flag definitions.
+\newif\if@szxchinese@
+\@szxchinese@false
+\DeclareOption{cn}{
+	\@szxchinese@true
+}
+
+\newif\if@szxdraft@
+\@szxdraft@false
+\DeclareOption{draft}{
+\@szxdraft@true
+}
+
+\newif\if@szxtitlecap@
+\@szxtitlecap@false
+\DeclareOption{titlecap}{
+	\@szxtitlecap@true
+}
+
+\newif\if@szxmfirstuc@
+\@szxmfirstuc@false
+\DeclareOption{mfirstuc}{
+	\@szxmfirstuc@true
+}
+
+\newif\if@szxuppercase@
+\@szxuppercase@false
+\DeclareOption{uppercase}{
+	\@szxuppercase@true
+}
+
+
+%% default options.
+\ExecuteOptions{titlecap} % cn, draft, titlecap|mfirstuc|uppercase, 
+\ProcessOptions\relax
+
+
+
+
+%%%%%%%% meta information. %%%%%%%%
+%%%% multi-language support.
+%% chinese characters support.
+\if@szxchinese@
+	\RequirePackage[UTF8]{ctex}
+\fi
+
+
+%%%% utility.
+%% for documenting this style file (usage of new commands).
+\RequirePackage{comment}
+
+%% argument handling in latex command.
+%\RequirePackage{xparse}
+
+
+%%%% document layout.
+%% text area.
+%\RequirePackage[paperwidth=480pt, paperheight=1800pt]{geometry}
+%\RequirePackage[a4paper]{geometry}
+%\geometry{left=3cm, right=3cm, top=2.5cm, bottom=3.5cm, footskip=1cm}
+
+%% section title style.
+%\RequirePackage{sectsty} % it has no effect on table of content.
+
+%% text indent.
+%\RequirePackage{indentfirst}
+
+%% line spacing.
+%\RequirePackage{setspace}
+
+%% character protrusion, font expansion, adjustment of interword spacing and additional kerning, hyphenatable letterspacing
+%\RequirePackage{microtype}
+
+%% glossaries organization.
+%\RequirePackage{glossaries}
+
+%% multiple columns.
+%\RequirePackage{multicol}
+
+
+%%%% coloring.
+%% predefined colors.
+\RequirePackage{color}
+\RequirePackage[dvipsnames]{xcolor}
+%\setlength{\fboxsep}{0pt} % set extra height out of text in \colorbox.
+\begin{comment}
+	\pagecolor{green!10}
+	\colorbox{blue!30}{text}
+	\textcolor{blue!30}{text}
+	\begingroup \color{blue!30}{text} \endgroup
+\end{comment}
+
+
+%%%% documentation.
+%% revision highlighting.
+%\RequirePackage{xcolor} % already included in coloring part.
+\RequirePackage[normalem]{ulem}
+\if@szxdraft@
+	\newcommand{\szxoutline}[1]{\par{}{$\bullet$\color{orange}#1}\par{}}
+	\newcommand{\szxadd}[1]{{\color{red}{#1}}}
+	\newcommand{\szxdel}[1]{{\color{blue}\sout{#1}}}
+\else
+	\newcommand{\szxoutline}[1]{\ignorespaces}
+	\newcommand{\szxadd}[1]{{#1}}
+	\newcommand{\szxdel}[1]{}
+\fi
+\begin{comment}
+	\szxoutline{A outline for this section.}
+	There are some\szxadd{ things to add}.
+	There are some\szxdel{ words to delete}.
+\end{comment}
+
+%% optional segment.
+\newcommand{\szxincludesegment}[1]{\includecomment{#1}}
+\newcommand{\szxexcludesegment}[1]{\excludecomment{#1}}
+\newcommand{\szxspecialsegment}[1]{\specialcomment{#1}{\begingroup\color{gray}}{\endgroup}}
+\begin{comment}
+	%\szxincludesegment{alt:OptionalSection}
+	\szxexcludesegment{alt:OptionalSection}
+	%szx\specialsegment{alt:OptionalSection}
+	\begin{alt:OptionalSection}
+	\section{Optional Section}
+	...
+	\end{alt:OptionalSection}
+\end{comment}
+
+%% comments and task list display.
+%\RequirePackage[disable]{todonotes}
+%\RequirePackage[draft]{todonotes}
+
+
+
+
+%%%%%%%% special text blocks. %%%%%%%%
+%%%% math.
+%% common symbols.
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{siunitx}
+
+%% symbol overlap. (http://tex.stackexchange.com/a/12900/101988)
+\newcommand{\szxoverlap}[2]{\mathrel{\setbox0\hbox{#1}\rlap{\hbox to \wd0{\hss\footnotesize#2\hss}}\box0}}
+\begin{comment}
+	$\overlap{$\rightarrow$}{?}$
+\end{comment}
+
+%% special symbols.
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+%%%% pseudo code.
+%% pseudo code environment.
+\RequirePackage[linesnumbered,ruled,vlined]{algorithm2e}
+\RequirePackage{algpseudocode}
+%\if@szxchinese@
+%	\renewcommand{\algorithmcfname}{\textbf{算法}}
+%	\SetKwInOut{KwIn}{\textbf{输入:}}
+%	\SetKwInOut{KwOut}{\textbf{输出:}}
+%\else
+%	\renewcommand{\algorithmcfname}{Algorithm}
+%	\SetKwInOut{KwIn}{\textbf{Input:}}
+%	\SetKwInOut{KwOut}{\textbf{Output:}}
+%\fi
+
+%\RequirePackage{algorithmic}
+%\RequirePackage{algorithm}
+%\if@szxchinese@
+%	\renewcommand{\algorithmcfname}{\textbf{算法}}
+%	\renewcommand{\algorithmicrequire}{\textbf{输入:}}
+%	\renewcommand{\algorithmicensure}{\textbf{输出:}}
+%\else
+%	\renewcommand{\algorithmcfname}{\textbf{Algorithm}}
+%	\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+%	\renewcommand{\algorithmicensure}{\textbf{Output:}}
+%\fi
+
+\newenvironment{szxalg}[1][!tb]{
+	\begin{algorithm}[#1]
+}{
+	\end{algorithm}
+}
+
+
+%%%% source code.
+%% syntax highlighted code block.
+\RequirePackage{listings}
+
+\definecolor{SzxCodeCommentColor}{rgb}{0,0.6,0}
+\definecolor{SzxCodeLineNumColor}{rgb}{0.5,0.5,0.5}
+\definecolor{SzxCodeLiteralColor}{rgb}{0.58,0,0.82}
+\lstset{ 
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=t,                    % sets the caption-position
+	commentstyle=\color{SzxCodeCommentColor},    % comment style
+%	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	firstnumber=1,                   % start line enumeration with line 1000
+	frame=single,	                 % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+%	language=Octave,                 % the language of the code
+%	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	xleftmargin=2em,
+%	framexleftmargin=2em,
+	numbersep=2em,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{SzxCodeLineNumColor}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{SzxCodeLiteralColor},     % string literal style
+	tabsize=2,	                     % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\definecolor{SzxCodeJsonDelim}{RGB}{20,105,176}
+\definecolor{SzxCodeJsonNum}{RGB}{106, 109, 32}
+\definecolor{SzxCodeJsonStr}{rgb}{0.64,0.08,0.08}
+\lstdefinelanguage{json}{
+	numbers=left,
+%	numberstyle=\tiny\color{SzxCodeLineNumColor},
+	frame=single,
+	rulecolor=\color{black},
+	showspaces=false,
+	showtabs=false,
+	breaklines=true,
+	postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
+	breakatwhitespace=true,
+%	basicstyle=\ttfamily\footnotesize,
+	upquote=true,
+	morestring=[b]",
+	stringstyle=\color{SzxCodeJsonStr},
+	literate=
+		*{0}{{{\color{SzxCodeJsonNum}0}}}{1}
+		 {1}{{{\color{SzxCodeJsonNum}1}}}{1}
+		 {2}{{{\color{SzxCodeJsonNum}2}}}{1}
+		 {3}{{{\color{SzxCodeJsonNum}3}}}{1}
+		 {4}{{{\color{SzxCodeJsonNum}4}}}{1}
+		 {5}{{{\color{SzxCodeJsonNum}5}}}{1}
+		 {6}{{{\color{SzxCodeJsonNum}6}}}{1}
+		 {7}{{{\color{SzxCodeJsonNum}7}}}{1}
+		 {8}{{{\color{SzxCodeJsonNum}8}}}{1}
+		 {9}{{{\color{SzxCodeJsonNum}9}}}{1}
+		 {\{}{{{\color{SzxCodeJsonDelim}{\{}}}}{1}
+		 {\}}{{{\color{SzxCodeJsonDelim}{\}}}}}{1}
+		 {[}{{{\color{SzxCodeJsonDelim}{[}}}}{1}
+		 {]}{{{\color{SzxCodeJsonDelim}{]}}}}{1},
+}
+\begin{comment}
+	\lstinline`\cite`
+	
+	\begin{lstlisting}[language=C++]
+		int i = 0;
+	\end{lstlisting}
+\end{comment}
+
+
+%%%% figure.
+%% centered figure with caption.
+\RequirePackage[labelformat=simple]{subcaption}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}
+
+\newenvironment{szxfig}[1][!tb]{
+	\begin{figure}[#1]
+		\centering
+}{
+	\end{figure}
+}
+
+\newenvironment{szxfig*}[1][!tb]{
+	\begin{figure*}[#1]
+		\centering
+}{
+	\end{figure*}
+}
+
+
+%%%% table.
+%% merge adjacent cells vertically.
+\RequirePackage{multirow}
+\begin{comment}
+	\multirow{2}{*}{Instance}
+	\begin{tabular}{c|cc}
+		\toprule
+		                                 &      \multicolumn{2}{c|}{header column 2}       \\
+		\multirow{2}{*}{header column 1} &   header column 2.1    &   header column 2.2    \\ \midrule
+		      content row 1 column       & content row 1 column 2 & content row 1 column 3 \\ \bottomrule
+	\end{tabular}
+\end{comment}
+
+%% special rules in table. (\toprule, \midrule, \bottomrule)
+\RequirePackage{booktabs}
+
+%% proper spacing and alignment for caption and notes around table.
+%\RequirePackage{threeparttable}
+
+%% centered table with caption.
+\newenvironment{szxtab}[1][!tb]{
+	\begin{table*}[#1]
+		\centering
+}{
+	\end{table*}
+}
+
+\newenvironment{szxtab*}[1][!tb]{
+	\begin{table*}[#1]
+		\centering
+}{
+	\end{table*}
+}
+
+\let\szxtrule\toprule
+\let\szxmrule\midrule
+\let\szxbrule\bottomrule
+\let\szxcrule\cmidrule
+
+
+%%%% itemize and enumerate.
+%% customized enumerate or itemize.
+%\RequirePackage[inline, shortlabels]{enumitem}
+
+%% configurable itemize environment.
+\newenvironment{szxitem}{
+%	\renewcommand\labelitemi{$\bullet$}
+%	\renewcommand\labelitemii{--}
+%	\renewcommand\labelitemiii{$\star$}
+	\begin{itemize}
+%	    \setlength{\itemsep}{0pt}
+%	    \setlength{\parskip}{0pt}
+%	    \setlength{\parsep}{0pt}
+}{
+	\end{itemize}
+}
+
+%% configurable enumerate environment.
+\newenvironment{szxenum}{
+	\begin{enumerate}
+%	    \setlength{\itemsep}{0pt}
+%	    \setlength{\parskip}{0pt}
+%	    \setlength{\parsep}{0pt}
+}{
+	\end{enumerate}
+}
+
+
+%%%% theorem.
+%% theorem environment.
+\newtheorem{definition}{Definition} % add `[section]` at the end for multi-level indexing.
+\newtheorem{theorem}{Theorem} % add `[section]` at the end for multi-level indexing.
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+
+%%%% title and caption.
+%% sentence capitalization.
+\newif\if@szxnocaplist@
+\@szxnocaplist@false
+
+\newcommand{\szxtitle}{}
+\if@szxuppercase@
+	\renewcommand{\szxtitle}{\MakeUppercase}
+\else
+	\if@szxtitlecap@
+		\RequirePackage{titlecaps}
+		\newcommand{\szxnocap}{\Addlcwords}
+		\renewcommand{\szxtitle}{\titlecap}
+		\@szxnocaplist@true
+	\else\if@szxmfirstuc@
+		\RequirePackage{mfirstuc}
+		\newcommand{\szxnocap}{\MFUnocap}
+		\renewcommand{\szxtitle}{\ecapitalisewords}
+		\@szxnocaplist@true
+	\fi\fi
+\fi
+
+
+\if@szxnocaplist@
+	\szxnocap{a} \szxnocap{an} \szxnocap{the}
+	\szxnocap{and} \szxnocap{or} \szxnocap{not}
+	\szxnocap{of} \szxnocap{for} \szxnocap{as} \szxnocap{with} \szxnocap{to} \szxnocap{by} \szxnocap{at} \szxnocap{on}
+	\szxnocap{in} \szxnocap{out} \szxnocap{between}	\szxnocap{up} \szxnocap{down} \szxnocap{above} \szxnocap{below} \szxnocap{under}
+\fi
+
+\newcommand{\szxcaption}[2]{\caption{\label{#1}\szxtitle{#2}}}
+\begin{comment}
+	\szxcaption{tab:SomeLabel}{Some title}
+\end{comment}
+
+
+
+
+%%%%%%%% citation. %%%%%%%%
+%%%% formal source.
+%% citing.
+\RequirePackage{cite}
+
+%% the reference is not part of the sentence.
+\newcommand{\szxupcite}[1]{\textsuperscript{\cite{#1}}}
+
+%% extensive bibliography.
+%\RequirePackage[sort&compress]{natbib}
+
+%% reference title.
+\if@szxchinese@
+	\newcommand{\@szxBibName@}{参考文献} % 参考文献 引用
+	\newcommand{\@szxRefName@}{参考文献} % 参考文献 引用
+\else
+	\newcommand{\@szxBibName@}{Bibliography} % References Bibliography
+	\newcommand{\@szxRefName@}{References} % References Bibliography
+\fi
+\renewcommand{\refname}{\@szxRefName@} % for artical class.
+\@ifpackageloaded{natbib}{ % it will make \bibname always be the title of bibliography regardless of article or book.
+	\renewcommand{\bibname}{\@szxBibName@} % for book class.
+	\@ifclassloaded{article}{
+		\renewcommand{\bibname}{\refname}
+	}{}
+}{}
+
+
+%%%% informal source.
+%% hyper links display and bookmarks generation for PDF documents.
+\RequirePackage{hyperref}
+\hypersetup{
+    hidelinks,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+
+
+
+%%%%%%%% cross reference. %%%%%%%%
+%% table of content formatting.
+%\RequirePackage[tocgraduated]{tocstyle} % tocgraduated,tocflat,tocfullflat
+%\usetocstyle{standard} % standard KOMAlike classic allwithdot noonewithdot nopagecolumn
+%\if@szxchinese@
+%	\newcommand{\@szx@TocName}{目录}
+%\else
+%	\newcommand{\@szx@TocName}{Table of Contents}
+%\fi
+%\renewcommand*{\contentsname}{\hfill\@szx@TocName\hfill\hfill} % * for the newly defined command does not accept empty lines or \par as argument.
+\begin{comment}
+	\clearpage
+	\tableofcontents
+	\clearpage
+\end{comment}
+
+%% determine whether the bibliography gets an section number and appears in table of contents.
+%\RequirePackage[nottoc]{tocbibind} % nottoc,numbib
+\begin{comment}
+	\section*{Abstract}
+	\addcontentsline{toc}{section}{Abstract} % add items to table of contents.
+	
+	\section{Introduction} % add items to table of contents.
+\end{comment}
+
+%% compress and sort multiple references automatically.
+\RequirePackage{cleveref}
+\if@szxchinese@
+%	\newcommand{\crefrangeconjunction}{~至~} % 到 - --
+%%	\newcommand{\crefrangepreconjunction}{}
+%%	\newcommand{\crefrangepostconjunction}{}
+%	\newcommand{\crefpairconjunction}{~和~} % 与
+%	\newcommand{\crefmiddleconjunction}{, } % 、 ，
+%	\newcommand{\creflastconjunction}{~和~} % 与 及
+%	\crefname{section}{节}{节}
+%	\crefname{figure}{图}{图}
+%	\crefname{table}{表}{表}
+%	\crefname{equation}{公式}{公式}
+%	\crefname{algorithm}{算法}{算法}
+%	\crefname{definition}{定义}{定义}
+%	\crefname{theorem}{定理}{定理}
+%	\crefname{lemma}{引理}{引理}
+%	\Crefname{section}{节}{节}
+%	\Crefname{figure}{图}{图}
+%	\Crefname{table}{表}{表}
+%	\Crefname{equation}{公式}{公式}
+%	\Crefname{algorithm}{算法}{算法}
+%	\Crefname{definition}{定义}{定义}
+%	\Crefname{theorem}{定理}{定理}
+%	\Crefname{lemma}{引理}{引理}
+%	\newcommand{\szxrefsec}[1]{\labelcref{#1} 节}
+\else
+%	\newcommand{\crefrangeconjunction}{~to~}
+%	\newcommand{\crefrangepreconjunction}{}
+%	\newcommand{\crefrangepostconjunction}{}
+%	\newcommand{\crefpairconjunction}{~and~}
+%	\newcommand{\crefmiddleconjunction}{, }
+%	\newcommand{\creflastconjunction}{~and~}
+	\crefname{section}{Section}{Sections}
+	\crefname{figure}{Fig.}{Figs.}
+	\crefname{table}{Tab.}{Tabs.}
+	\crefname{equation}{Eq.}{Eqs.}
+	\crefname{algorithm}{Alg.}{Algs.}
+	\crefname{listing}{Listing}{Listings}
+	\crefname{definition}{Definition}{Definitions}
+	\crefname{theorem}{Theorem}{Theorems}
+	\crefname{proposition}{Proposition}{Propositions}
+%	\Crefname{section}{Section}{Sections}
+%	\Crefname{figure}{Figure}{Figures}
+%	\Crefname{table}{Table}{Tables}
+%	\Crefname{equation}{Equation}{Equations}
+%	\Crefname{algorithm}{Algorithm}{Algorithms}
+%	\Crefname{listing}{Listing}{Listings}
+%	\Crefname{definition}{Definition}{Definitions}
+%	\Crefname{theorem}{Theorem}{Theorems}
+%	\Crefname{proposition}{Proposition}{Propositions}
+\fi
+
+\let\szxrefsec\cref
+\let\szxrefsecs\cref
+\let\szxreffig\cref
+\let\szxreffigs\cref
+\let\szxreftab\cref
+\let\szxreftabs\cref
+\let\szxrefequ\cref
+\let\szxrefequs\cref
+\let\szxrefalg\cref
+\let\szxrefalgs\cref
+\let\szxrefline\cref
+\let\szxreflines\cref
+\let\szxrefcode\cref
+\let\szxrefcodes\cref
+\let\szxrefdef\cref
+\let\szxrefdefs\cref
+\let\szxrefprop\cref
+\let\szxrefprops\cref
+\let\szxrefthm\cref
+\let\szxrefthms\cref
+
+\let\szxrefSec\Cref
+\let\szxrefSecs\Cref
+\let\szxrefFig\Cref
+\let\szxrefFigs\Cref
+\let\szxrefTab\Cref
+\let\szxrefTabs\Cref
+\let\szxrefEqu\Cref
+\let\szxrefEqus\Cref
+\let\szxrefAlg\Cref
+\let\szxrefAlgs\Cref
+\let\szxrefLine\Cref
+\let\szxrefLines\Cref
+\let\szxrefCode\Cref
+\let\szxrefCodes\Cref
+\let\szxrefDef\Cref
+\let\szxrefDefs\Cref
+\let\szxrefProp\Cref
+\let\szxrefProps\Cref
+\let\szxrefThm\Cref
+\let\szxrefThms\Cref
+
+%\newcommand{\szxrefSec}[1]{Section~{#1}}
+%\newcommand{\szxrefSecs}[2]{Sections~{#1}{#2}}
+%\newcommand{\szxrefsec}[1]{Section~{#1}}
+%\newcommand{\szxrefsecs}[2]{Sections~{#1}{#2}}
+%
+%\newcommand{\szxrefFig}[1]{Figure~{#1}}
+%\newcommand{\szxrefFigs}[2]{Figures~{#1}{#2}}
+%\newcommand{\szxreffig}[1]{Fig.~{#1}}
+%\newcommand{\szxreffigs}[2]{Figs.~{#1}{#2}}
+%
+%\newcommand{\szxrefTab}[1]{Table~{#1}}
+%\newcommand{\szxrefTabs}[2]{Tables~{#1}{#2}}
+%\newcommand{\szxreftab}[1]{Tab.~{#1}}
+%\newcommand{\szxreftabs}[2]{Tabs.~{#1}{#2}}
+%
+%\newcommand{\szxrefEqu}[1]{Equation~({#1})}
+%\newcommand{\szxrefEqus}[2]{Equations~{#1}{#2}}
+%\newcommand{\szxrefequ}[1]{Eq.~({#1})}
+%\newcommand{\szxrefequs}[2]{Eqs.~{#1}{#2}}
+%
+%\newcommand{\szxrefLine}[1]{Algorithm~{#1}}
+%\newcommand{\szxrefLines}[2]{Algorithms~{#1}{#2}}
+%\newcommand{\szxrefline}[1]{Alg.~{#1}}
+%\newcommand{\szxreflines}[2]{Algs.~{#1}{#2}}
+%
+%\newcommand{\szxrefLine}[1]{Line~{#1}}
+%\newcommand{\szxrefLines}[2]{Lines~{#1}{#2}}
+%\newcommand{\szxrefline}[1]{line~{#1}}
+%\newcommand{\szxreflines}[2]{lines~{#1}{#2}}
+
+
+
+
+%%%%%%%% graphics. %%%%%%%%
+%%%% graph drawing.
+%% include external graph file.
+\RequirePackage{graphicx}
+
+%% plot vector graph.
+%\RequirePackage{tikz}
+%\RequirePackage{pgfplots}
+\begin{comment}
+	\usetikzlibrary{shadows,arrows}
+	% Define the layers to draw the diagram
+	\pgfdeclarelayer{background}
+	\pgfdeclarelayer{foreground}
+	\pgfsetlayers{background,main,foreground}
+	% Define block styles  
+	\tikzstyle{materia}=[draw, fill=blue!20, text width=6.0em, text centered, minimum height=1.5em,drop shadow]
+	\tikzstyle{practica} = [materia, text width=8em, minimum width=10em, minimum height=3em, rounded corners, drop shadow]
+	\tikzstyle{texto} = [above, text width=6em, text centered]
+	\tikzstyle{linepart} = [draw, thick, color=black!50, -latex', dashed]
+	\tikzstyle{line} = [draw, thick, color=black!50, -latex']
+	% Draw nodes
+	\newcommand{\practica}[2]{node (p#1) [practica]	{Pr\'actica #1\\{\scriptsize\textit{#2}}}}
+	% Draw background
+	\newcommand{\background}[5]{%
+		\begin{pgfonlayer}{background}
+			% Left-top corner of the background rectangle
+			\path (#1.west |- #2.north)+(-0.5,0.5) node (a1) {};
+			% Right-bottom corner of the background rectanle
+			\path (#3.east |- #4.south)+(+0.5,-0.25) node (a2) {};
+			% Draw the background
+			\path[fill=yellow!20,rounded corners, draw=black!50, dashed] (a1) rectangle (a2);
+			\path (a1.east |- a1.south)+(0.8,-0.3) node (u1)[texto]
+			{\scriptsize\textit{Unidad #5}};
+		\end{pgfonlayer}
+	}
+	\begin{tikzpicture}[scale=0.7,transform shape]
+		% Draw diagram elements.
+		\path \practica {1}{Diferencias en componentes electr\'onicos};
+		\path (p1.south)+(0.0,-1.0) \practica{2}{Serie de Fourier};
+		\path (p2.south)+(-2.5,-2.0) \practica{3}{Antena para HF};
+		\path (p3.south)+(0.0,-1.0) \practica{5}{Medidor de SWR};
+		\path (p3.south)+(5.0,-1.0) \practica{4}{Amplificador para HF};
+		% Draw arrows between elements.
+		\path [line] (p1.south) -- node [above] {} (p2);
+		\path [line] (p2.south) -- +(0.0,-0.5) -- +(-2.5,-0.5)	-- node [above, midway] {} (p3);
+		\path [line] (p3.south) -- node [above] {} (p5);
+		\path [line] (p2.south) -- +(0.0,-0.5) -- +(+2.5,-0.5)	-- node [above, midway] {} (p4);
+		\path [linepart] (p3.east) -- +(+0.5,-0.0) -- +(+0.5,-1.75)	-- node [left, midway] {} (p4);
+		\path [linepart] (p3.east) -- +(+0.5,-0.0) -- +(+0.5,-1.75)	-- node [left, midway] {} (p4);
+		% Draw backgroud box.
+		\background{p3}{p1}{p4}{p2}{I}
+		\background{p3}{p3}{p4}{p5}{II}
+	\end{tikzpicture}
+	
+	
+	% Define block styles
+	\usetikzlibrary{shapes,shadows,arrows,fit,positioning,calc}
+	\tikzstyle{nodebase} = [node distance=2.5em and 2em]
+	\tikzstyle{decision} = [nodebase, diamond, aspect=2, draw, fill=blue!20, text width=5em, text badly centered, inner sep=0pt]
+	\tikzstyle{block} = [nodebase, rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
+	\tikzstyle{cloud} = [nodebase, draw, ellipse,fill=red!20, minimum height=2em]
+	\tikzstyle{line} = [draw, very thick, -latex']
+	\tikzstyle{line2} = [draw, thick, latex-latex, double]
+	\begin{tikzpicture}[node distance = 2cm, auto]
+		% Place nodes
+		\node [block] (init) {generate initial solution};				
+		\node [cloud, right=of init] (system) {system};
+		\node [block, below=of init] (identify) {identify candidate models};
+		\node [block, below=of identify] (evaluate) {evaluate candidate models};
+		\node [block, left=of evaluate] (update) {update model};
+		\node [decision, below=of evaluate] (decide) {is best candidate better?};
+		\node [block, below=of decide] (stop) {stop};
+		% Draw edges
+		\path [line] (init) -- (identify);
+		\path [line] (identify) -- (evaluate);
+		\path [line] (evaluate) -- (decide);
+		\path [line] (decide) -| node [near start] {yes} (update);
+		\path [line] (update) |- (identify);
+		\path [line] (decide) -- node {no}(stop);
+		\path [line,dashed] (system) -- (init);
+		\path [line,dashed] (system) |- (evaluate);
+		% Draw boxes
+		\node [draw=red, ultra thick, fit=(init) (identify) (evaluate) (update)] (layer2) {};
+		\node [anchor=north west, font=\bfseries] at (layer2.north west) {Layer II};
+	\end{tikzpicture}
+	
+
+	\usetikzlibrary{arrows,positioning}
+	\begin{tikzpicture}[
+			%scale=5,
+			axis/.style={very thick, ->, >=stealth'},
+			important line/.style={thick},
+			dashed line/.style={dashed, thin},
+			pile/.style={thick, ->, >=stealth', shorten <=2pt, shorten >=2pt},
+			every node/.style={color=black}
+		]
+		% axis
+		\draw[axis] (-1,0)  -- (11,0) node(xline)[below] {$x$};
+		\draw[axis] (0,-1) -- (0,11) node(yline)[left] {$y$};
+		% Lines
+		\draw[important line] (2,2) coordinate (n1) node {} -- node [pos=.8, inner sep=1em, above] {$l_1$} (8,6) coordinate (n2) node {};
+		\draw[important line] (2,8) coordinate (n3) node {} -- node [pos=.2, inner sep=1em, above] {$l_2$} (8,2) coordinate (n4) node {};
+		\fill[red] (n1) circle (2pt) node[below, text width=5em] {$n_1(x_1,y_1)$};
+		\fill[red] (n2) circle (2pt) node[above, text width=5em] {$n_2(x_2,y_2)$};
+		\fill[red] (n3) circle (2pt) node[above, text width=5em] {$n_3(x_3,y_3)$};
+		\fill[red] (n4) circle (2pt) node[below, text width=5em] {$n_4(x_4,y_4)$};
+		% Intersection of lines
+		\fill[red] (intersection cs: first line={(n1) -- (n2)}, second line={(n3) -- (n4)}) coordinate (B) circle (2pt) node[above,] {$A$};
+		% The B point is placed more or less randomly
+		\fill[red] (B) +(-.75,-2) coordinate (out) circle (2pt) node[below left] {$B$};
+		% Line connecting out and ext balances
+		\draw [pile] (out) -- (intersection of n1--n2 and out--[shift={(0:1pt)}]out) coordinate (extbal);
+		\fill[red] (extbal) circle (2pt) node[above] {$C$};
+		% line connecting  out and int balances
+		\draw [pile] (out) -- (intersection of n3--n4 and out--[shift={(0:1pt)}]out) coordinate (intbal);
+		\fill[red] (intbal) circle (2pt) node[above] {$D$};
+		% line between out og all balanced out :)
+		\draw[pile] (out) -- (B);
+	\end{tikzpicture}
+\end{comment}

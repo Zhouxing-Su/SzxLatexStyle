@@ -34,14 +34,14 @@
 #include:soul
 #include:threeparttable
 
-\begin{szxfigure}#\figure
-\end{szxfigure}#\figure
-\begin{szxtable}#\tabular
-\end{szxtable}#\tabular
-\begin{szxitemize}#\itemize
-\end{szxitemize}#\itemize
-\begin{szxalgorithm}#\algorithm
-\end{szxalgorithm}#\algorithm
+\begin{szxalg}#\algorithm
+\end{szxalg}#\algorithm
+\begin{szxfig}#\figure
+\end{szxfig}#\figure
+\begin{szxtab}#\tabular
+\end{szxtab}#\tabular
+\begin{szxitem}#\itemize
+\end{szxitem}#\itemize
 \szxtrule#t
 \szxmrule#t
 \szxbrule#t
@@ -49,28 +49,20 @@
 \szxnocap{NoCapitalizationWord}
 \szxtitle{Title}
 
-\szxnewsymbol{Symbol}
-\szxrenewsymbol{Symbol}
-
 \szxcaption{Title}{\label{TitleLabel}}
 \szxsection{Title}#L2
 \szxsubsection{Title}#L3
 \szxsubsubsection{Title}#L4
 
-\szxtodo{ToDo}#D
-\szxextend{ToExtend}#D
-\szxtofill{ToFill}#D
-\szxoption{Option1}{Option2}#D
-
-\szxadd{Version}{Content}
-\szxdelete{Version}{Content}
-\szxreplace{Version}{NewContent}{OldContent}
+\szxadd{Content}
+\szxdel{Content}
+\szxoutline{Outline}
 
 \szxexcludesegment{SegmentLabel}
 \szxincludesegment{SegmentLabel}
 \szxspecialsegment{SegmentLabel}
 
-\upcite{RefLabel}#c
+\szxupcite{RefLabel}#c
 \szxref{RefLabel}#r
 \szxrefsec{sec:SecLabel}#r
 \szxrefssec{sec:SecLabel}#r
@@ -78,9 +70,5 @@
 \szxreffig{fig:FigLabel}#r
 \szxrefequ{equ:EquLabel}#r
 \szxrefalg{alg:AlgLabel}#r
-
-\szxhl[Color]{ToHighlight}#D
-\szxul[Color]{ToUnderline}#D
-\szxdl[Color]{ToDeleteline}#D
 
 \overlap{Background}{Foreground}#m
