@@ -17,14 +17,20 @@
 %% flag definitions.
 \newif\if@szxchinese@
 \@szxchinese@false
-\DeclareOption{cn}{
+\DeclareOption{cn}{ % must add `% !TEX program = xelatex` at the beginning of your .tex file!
 	\@szxchinese@true
 }
 
 \newif\if@szxdraft@
 \@szxdraft@false
 \DeclareOption{draft}{
-\@szxdraft@true
+	\@szxdraft@true
+}
+
+\newif\if@afourpage@
+\@afourpage@false
+\DeclareOption{a4page}{
+	\@afourpage@true
 }
 
 \newif\if@szxtitlecap@
@@ -37,12 +43,6 @@
 \@szxmfirstuc@false
 \DeclareOption{mfirstuc}{
 	\@szxmfirstuc@true
-}
-
-\newif\if@szxuppercase@
-\@szxuppercase@false
-\DeclareOption{uppercase}{
-	\@szxuppercase@true
 }
 
 
@@ -62,8 +62,11 @@
 
 
 %%%% utility.
-%% for documenting this style file (usage of new commands).
+%% for skipping contents.
 \RequirePackage{comment}
+
+%% for printing contents with parsing.
+\RequirePackage{verbatim}
 
 %% argument handling in latex command.
 %\RequirePackage{xparse}
@@ -71,9 +74,11 @@
 
 %%%% document layout.
 %% text area.
-%\RequirePackage[paperwidth=480pt, paperheight=1800pt]{geometry}
-%\RequirePackage[a4paper]{geometry}
-%\geometry{left=3cm, right=3cm, top=2.5cm, bottom=3.5cm, footskip=1cm}
+\if@afourpage@
+	%\RequirePackage[paperwidth=480pt, paperheight=1800pt]{geometry}
+	\RequirePackage[a4paper]{geometry}
+	\geometry{left=3cm, right=3cm, top=2.5cm, bottom=3.5cm, footskip=1cm}
+\fi
 
 %% section title style.
 %\RequirePackage{sectsty} % it has no effect on table of content.
@@ -109,31 +114,32 @@
 
 %%%% documentation.
 %% revision highlighting.
-%\RequirePackage{xcolor} % already included in coloring part.
-\RequirePackage[normalem]{ulem}
 \if@szxdraft@
-	\newcommand{\szxoutline}[1]{\par{}{$\bullet$\color{orange}#1}\par{}}
-	\newcommand{\szxadd}[1]{{\color{red}{#1}}}
-	\newcommand{\szxdel}[1]{{\color{blue}\sout{#1}}}
+%	\RequirePackage{xcolor} % already included in coloring part.
+	\RequirePackage{ulem}
+	\normalem
+	\newcommand{\xoutline}[1]{\par{}{$\bullet$\color{orange}#1}\par{}}
+	\newcommand{\xadd}[1]{{\color{red}{#1}}}
+	\newcommand{\xdel}[1]{{\color{blue}\sout{#1}}}
 \else
-	\newcommand{\szxoutline}[1]{\ignorespaces}
-	\newcommand{\szxadd}[1]{{#1}}
-	\newcommand{\szxdel}[1]{}
+	\newcommand{\xoutline}[1]{\ignorespaces}
+	\newcommand{\xadd}[1]{{#1}}
+	\newcommand{\xdel}[1]{}
 \fi
 \begin{comment}
-	\szxoutline{A outline for this section.}
-	There are some\szxadd{ things to add}.
-	There are some\szxdel{ words to delete}.
+	\xoutline{A outline for this section.}
+	There are some\xadd{ things to add}.
+	There are some\xdel{ words to delete}.
 \end{comment}
 
 %% optional segment.
-\newcommand{\szxincludesegment}[1]{\includecomment{#1}}
-\newcommand{\szxexcludesegment}[1]{\excludecomment{#1}}
-\newcommand{\szxspecialsegment}[1]{\specialcomment{#1}{\begingroup\color{gray}}{\endgroup}}
+\newcommand{\xincludesegment}[1]{\includecomment{#1}}
+\newcommand{\xexcludesegment}[1]{\excludecomment{#1}}
+\newcommand{\xspecialsegment}[1]{\specialcomment{#1}{\begingroup\color{gray}}{\endgroup}}
 \begin{comment}
-	%\szxincludesegment{alt:OptionalSection}
-	\szxexcludesegment{alt:OptionalSection}
-	%szx\specialsegment{alt:OptionalSection}
+	%\xincludesegment{alt:OptionalSection}
+	\xexcludesegment{alt:OptionalSection}
+	%\xspecialsegment{alt:OptionalSection}
 	\begin{alt:OptionalSection}
 	\section{Optional Section}
 	...
@@ -156,7 +162,7 @@
 \RequirePackage{siunitx}
 
 %% symbol overlap. (http://tex.stackexchange.com/a/12900/101988)
-\newcommand{\szxoverlap}[2]{\mathrel{\setbox0\hbox{#1}\rlap{\hbox to \wd0{\hss\footnotesize#2\hss}}\box0}}
+\newcommand{\xoverlap}[2]{\mathrel{\setbox0\hbox{#1}\rlap{\hbox to \wd0{\hss\footnotesize#2\hss}}\box0}}
 \begin{comment}
 	$\overlap{$\rightarrow$}{?}$
 \end{comment}
@@ -169,15 +175,15 @@
 %% pseudo code environment.
 \RequirePackage[linesnumbered,ruled,vlined]{algorithm2e}
 \RequirePackage{algpseudocode}
-%\if@szxchinese@
-%	\renewcommand{\algorithmcfname}{\textbf{算法}}
-%	\SetKwInOut{KwIn}{\textbf{输入:}}
-%	\SetKwInOut{KwOut}{\textbf{输出:}}
-%\else
-%	\renewcommand{\algorithmcfname}{Algorithm}
-%	\SetKwInOut{KwIn}{\textbf{Input:}}
-%	\SetKwInOut{KwOut}{\textbf{Output:}}
-%\fi
+\if@szxchinese@
+	\renewcommand{\algorithmcfname}{\textbf{算法}}
+	\SetKwInOut{KwIn}{\textbf{输入}}
+	\SetKwInOut{KwOut}{\textbf{输出}}
+\else
+	\renewcommand{\algorithmcfname}{Algorithm}
+	\SetKwInOut{KwIn}{\textbf{Input}}
+	\SetKwInOut{KwOut}{\textbf{Output}}
+\fi
 
 %\RequirePackage{algorithmic}
 %\RequirePackage{algorithm}
@@ -331,10 +337,10 @@
 	\end{table*}
 }
 
-\let\szxtrule\toprule
-\let\szxmrule\midrule
-\let\szxbrule\bottomrule
-\let\szxcrule\cmidrule
+\let\xtrule\toprule
+\let\xmrule\midrule
+\let\xbrule\bottomrule
+\let\xcrule\cmidrule
 
 
 %%%% itemize and enumerate.
@@ -374,54 +380,47 @@
 \newtheorem{corollary}[theorem]{Corollary}
 
 
-%%%% title and caption.
-%% sentence capitalization.
+%%%% sentence capitalization.
+%% title case.
+\newcommand{\xtitle}{} % sentence case if no titlecaps nor mfirstuc support.
+
 \newif\if@szxnocaplist@
 \@szxnocaplist@false
+\if@szxtitlecap@
+	\RequirePackage{titlecaps}
+	\newcommand{\xnocap}{\Addlcwords}
+	\renewcommand{\xtitle}{\titlecap}
+	\@szxnocaplist@true
+\else\if@szxmfirstuc@
+	\RequirePackage{mfirstuc}
+	\newcommand{\xnocap}{\MFUnocap}
+	\renewcommand{\xtitle}{\ecapitalisewords}
+	\@szxnocaplist@true
+\fi\fi
 
-\newcommand{\szxtitle}{}
-\if@szxuppercase@
-	\renewcommand{\szxtitle}{\MakeUppercase}
-\else
-	\if@szxtitlecap@
-		\RequirePackage{titlecaps}
-		\newcommand{\szxnocap}{\Addlcwords}
-		\renewcommand{\szxtitle}{\titlecap}
-		\@szxnocaplist@true
-	\else\if@szxmfirstuc@
-		\RequirePackage{mfirstuc}
-		\newcommand{\szxnocap}{\MFUnocap}
-		\renewcommand{\szxtitle}{\ecapitalisewords}
-		\@szxnocaplist@true
-	\fi\fi
+\if@szxnocaplist@ % https://apastyle.apa.org/style-grammar-guidelines/capitalization/title-case
+	\xnocap{a} \xnocap{an} \xnocap{the}
+	\xnocap{and} \xnocap{or} \xnocap{not} \xnocap{but} \xnocap{if} \xnocap{nor} \xnocap{so} \xnocap{yet}
+	\xnocap{of} \xnocap{for} \xnocap{as} \xnocap{with} \xnocap{by} \xnocap{at} \xnocap{per}
+	\xnocap{on} \xnocap{off} \xnocap{in} \xnocap{out} \xnocap{from} \xnocap{to} \xnocap{via}
+	\xnocap{up} \xnocap{down} \xnocap{above} \xnocap{below} \xnocap{under} \xnocap{between} \xnocap{among}
 \fi
 
-
-\if@szxnocaplist@
-	\szxnocap{a} \szxnocap{an} \szxnocap{the}
-	\szxnocap{and} \szxnocap{or} \szxnocap{not}
-	\szxnocap{of} \szxnocap{for} \szxnocap{as} \szxnocap{with} \szxnocap{to} \szxnocap{by} \szxnocap{at} \szxnocap{on}
-	\szxnocap{in} \szxnocap{out} \szxnocap{between}	\szxnocap{up} \szxnocap{down} \szxnocap{above} \szxnocap{below} \szxnocap{under}
-\fi
-
-\newcommand{\szxcaption}[2]{\caption{\label{#1}\szxtitle{#2}}}
-\begin{comment}
-	\szxcaption{tab:SomeLabel}{Some title}
-\end{comment}
+%% uppercase.
+\newcommand{\xuppercase}{\MakeUppercase}
 
 
 
 
 %%%%%%%% citation. %%%%%%%%
 %%%% formal source.
-%% citing.
-\RequirePackage{cite}
-
-%% the reference is not part of the sentence.
-\newcommand{\szxupcite}[1]{\textsuperscript{\cite{#1}}}
-
 %% extensive bibliography.
-%\RequirePackage[sort&compress]{natbib}
+%\RequirePackage{cite} % conflict with natbib.
+\RequirePackage[sort&compress]{natbib}
+%\setcitestyle{numbers,square}
+%\newcommand{\citet}[1]{\citeauthor{#1} \shortcite{#1}}
+%\newcommand{\citep}[1]{\cite{#1}}
+\newcommand{\xupcite}[1]{\textsuperscript{\cite{#1}}} % the reference is not part of the sentence.
 
 %% reference title.
 \if@szxchinese@
@@ -482,29 +481,35 @@
 %% compress and sort multiple references automatically.
 \RequirePackage{cleveref}
 \if@szxchinese@
-%	\newcommand{\crefrangeconjunction}{~至~} % 到 - --
-%%	\newcommand{\crefrangepreconjunction}{}
-%%	\newcommand{\crefrangepostconjunction}{}
-%	\newcommand{\crefpairconjunction}{~和~} % 与
-%	\newcommand{\crefmiddleconjunction}{, } % 、 ，
-%	\newcommand{\creflastconjunction}{~和~} % 与 及
-%	\crefname{section}{节}{节}
-%	\crefname{figure}{图}{图}
-%	\crefname{table}{表}{表}
-%	\crefname{equation}{公式}{公式}
-%	\crefname{algorithm}{算法}{算法}
-%	\crefname{definition}{定义}{定义}
-%	\crefname{theorem}{定理}{定理}
-%	\crefname{lemma}{引理}{引理}
-%	\Crefname{section}{节}{节}
-%	\Crefname{figure}{图}{图}
-%	\Crefname{table}{表}{表}
-%	\Crefname{equation}{公式}{公式}
-%	\Crefname{algorithm}{算法}{算法}
-%	\Crefname{definition}{定义}{定义}
-%	\Crefname{theorem}{定理}{定理}
-%	\Crefname{lemma}{引理}{引理}
-%	\newcommand{\szxrefsec}[1]{\labelcref{#1} 节}
+	\newcommand{\crefrangeconjunction}{~至~} % 到 - --
+	\newcommand{\crefrangepreconjunction}{}
+	\newcommand{\crefrangepostconjunction}{}
+	\newcommand{\crefpairconjunction}{~和~} % 与
+	\newcommand{\crefmiddleconjunction}{、} % 、 ，
+	\newcommand{\creflastconjunction}{~和~} % 与 及
+	\crefname{section}{节}{节}
+	\crefname{appendix}{附录}{附录}
+	\crefname{figure}{图}{图}
+	\crefname{table}{表}{表}
+	\crefname{equation}{公式}{公式}
+	\crefname{algorithm}{算法}{算法}
+	\crefname{line}{行}{行}
+	\crefname{listing}{代码}{代码}
+	\crefname{definition}{定义}{定义}
+	\crefname{theorem}{定理}{定理}
+	\crefname{proposition}{命题}{命题}
+	\Crefname{section}{节}{节}
+	\Crefname{appendix}{附录}{附录}
+	\Crefname{figure}{图}{图}
+	\Crefname{table}{表}{表}
+	\Crefname{equation}{公式}{公式}
+	\Crefname{algorithm}{算法}{算法}
+	\Crefname{line}{行}{行}
+	\Crefname{listing}{代码}{代码}
+	\Crefname{definition}{定义}{定义}
+	\Crefname{theorem}{定理}{定理}
+	\Crefname{proposition}{命题}{命题}
+%	\newcommand{\xrefsec}[1]{\labelcref{#1} 节}
 \else
 %	\newcommand{\crefrangeconjunction}{~to~}
 %	\newcommand{\crefrangepreconjunction}{}
@@ -513,96 +518,100 @@
 %	\newcommand{\crefmiddleconjunction}{, }
 %	\newcommand{\creflastconjunction}{~and~}
 	\crefname{section}{Section}{Sections}
+	\crefname{appendix}{Appendix}{Appendices}
 	\crefname{figure}{Fig.}{Figs.}
 	\crefname{table}{Tab.}{Tabs.}
 	\crefname{equation}{Eq.}{Eqs.}
 	\crefname{algorithm}{Alg.}{Algs.}
+	\crefname{line}{line}{lines}
 	\crefname{listing}{Listing}{Listings}
 	\crefname{definition}{Definition}{Definitions}
 	\crefname{theorem}{Theorem}{Theorems}
 	\crefname{proposition}{Proposition}{Propositions}
 %	\Crefname{section}{Section}{Sections}
+%	\Crefname{appendix}{Appendix}{Appendices}
 %	\Crefname{figure}{Figure}{Figures}
 %	\Crefname{table}{Table}{Tables}
 %	\Crefname{equation}{Equation}{Equations}
 %	\Crefname{algorithm}{Algorithm}{Algorithms}
+%	\Crefname{line}{line}{lines}
 %	\Crefname{listing}{Listing}{Listings}
 %	\Crefname{definition}{Definition}{Definitions}
 %	\Crefname{theorem}{Theorem}{Theorems}
 %	\Crefname{proposition}{Proposition}{Propositions}
 \fi
 
-\let\szxrefsec\cref
-\let\szxrefsecs\cref
-\let\szxreffig\cref
-\let\szxreffigs\cref
-\let\szxreftab\cref
-\let\szxreftabs\cref
-\let\szxrefequ\cref
-\let\szxrefequs\cref
-\let\szxrefalg\cref
-\let\szxrefalgs\cref
-\let\szxrefline\cref
-\let\szxreflines\cref
-\let\szxrefcode\cref
-\let\szxrefcodes\cref
-\let\szxrefdef\cref
-\let\szxrefdefs\cref
-\let\szxrefprop\cref
-\let\szxrefprops\cref
-\let\szxrefthm\cref
-\let\szxrefthms\cref
+\let\xrefsec\cref
+\let\xrefsecs\cref
+\let\xreffig\cref
+\let\xreffigs\cref
+\let\xreftab\cref
+\let\xreftabs\cref
+\let\xrefequ\cref
+\let\xrefequs\cref
+\let\xrefalg\cref
+\let\xrefalgs\cref
+\let\xrefline\cref
+\let\xreflines\cref
+\let\xrefcode\cref
+\let\xrefcodes\cref
+\let\xrefdef\cref
+\let\xrefdefs\cref
+\let\xrefprop\cref
+\let\xrefprops\cref
+\let\xrefthm\cref
+\let\xrefthms\cref
 
-\let\szxrefSec\Cref
-\let\szxrefSecs\Cref
-\let\szxrefFig\Cref
-\let\szxrefFigs\Cref
-\let\szxrefTab\Cref
-\let\szxrefTabs\Cref
-\let\szxrefEqu\Cref
-\let\szxrefEqus\Cref
-\let\szxrefAlg\Cref
-\let\szxrefAlgs\Cref
-\let\szxrefLine\Cref
-\let\szxrefLines\Cref
-\let\szxrefCode\Cref
-\let\szxrefCodes\Cref
-\let\szxrefDef\Cref
-\let\szxrefDefs\Cref
-\let\szxrefProp\Cref
-\let\szxrefProps\Cref
-\let\szxrefThm\Cref
-\let\szxrefThms\Cref
+\let\xrefSec\Cref
+\let\xrefSecs\Cref
+\let\xrefFig\Cref
+\let\xrefFigs\Cref
+\let\xrefTab\Cref
+\let\xrefTabs\Cref
+\let\xrefEqu\Cref
+\let\xrefEqus\Cref
+\let\xrefAlg\Cref
+\let\xrefAlgs\Cref
+\let\xrefLine\Cref
+\let\xrefLines\Cref
+\let\xrefCode\Cref
+\let\xrefCodes\Cref
+\let\xrefDef\Cref
+\let\xrefDefs\Cref
+\let\xrefProp\Cref
+\let\xrefProps\Cref
+\let\xrefThm\Cref
+\let\xrefThms\Cref
 
-%\newcommand{\szxrefSec}[1]{Section~{#1}}
-%\newcommand{\szxrefSecs}[2]{Sections~{#1}{#2}}
-%\newcommand{\szxrefsec}[1]{Section~{#1}}
-%\newcommand{\szxrefsecs}[2]{Sections~{#1}{#2}}
+%\newcommand{\xrefSec}[1]{Section~{#1}}
+%\newcommand{\xrefSecs}[2]{Sections~{#1}{#2}}
+%\newcommand{\xrefsec}[1]{Section~{#1}}
+%\newcommand{\xrefsecs}[2]{Sections~{#1}{#2}}
 %
-%\newcommand{\szxrefFig}[1]{Figure~{#1}}
-%\newcommand{\szxrefFigs}[2]{Figures~{#1}{#2}}
-%\newcommand{\szxreffig}[1]{Fig.~{#1}}
-%\newcommand{\szxreffigs}[2]{Figs.~{#1}{#2}}
+%\newcommand{\xrefFig}[1]{Figure~{#1}}
+%\newcommand{\xrefFigs}[2]{Figures~{#1}{#2}}
+%\newcommand{\xreffig}[1]{Fig.~{#1}}
+%\newcommand{\xreffigs}[2]{Figs.~{#1}{#2}}
 %
-%\newcommand{\szxrefTab}[1]{Table~{#1}}
-%\newcommand{\szxrefTabs}[2]{Tables~{#1}{#2}}
-%\newcommand{\szxreftab}[1]{Tab.~{#1}}
-%\newcommand{\szxreftabs}[2]{Tabs.~{#1}{#2}}
+%\newcommand{\xrefTab}[1]{Table~{#1}}
+%\newcommand{\xrefTabs}[2]{Tables~{#1}{#2}}
+%\newcommand{\xreftab}[1]{Tab.~{#1}}
+%\newcommand{\xreftabs}[2]{Tabs.~{#1}{#2}}
 %
-%\newcommand{\szxrefEqu}[1]{Equation~({#1})}
-%\newcommand{\szxrefEqus}[2]{Equations~{#1}{#2}}
-%\newcommand{\szxrefequ}[1]{Eq.~({#1})}
-%\newcommand{\szxrefequs}[2]{Eqs.~{#1}{#2}}
+%\newcommand{\xrefEqu}[1]{Equation~({#1})}
+%\newcommand{\xrefEqus}[2]{Equations~{#1}{#2}}
+%\newcommand{\xrefequ}[1]{Eq.~({#1})}
+%\newcommand{\xrefequs}[2]{Eqs.~{#1}{#2}}
 %
-%\newcommand{\szxrefLine}[1]{Algorithm~{#1}}
-%\newcommand{\szxrefLines}[2]{Algorithms~{#1}{#2}}
-%\newcommand{\szxrefline}[1]{Alg.~{#1}}
-%\newcommand{\szxreflines}[2]{Algs.~{#1}{#2}}
+%\newcommand{\xrefLine}[1]{Algorithm~{#1}}
+%\newcommand{\xrefLines}[2]{Algorithms~{#1}{#2}}
+%\newcommand{\xrefline}[1]{Alg.~{#1}}
+%\newcommand{\xreflines}[2]{Algs.~{#1}{#2}}
 %
-%\newcommand{\szxrefLine}[1]{Line~{#1}}
-%\newcommand{\szxrefLines}[2]{Lines~{#1}{#2}}
-%\newcommand{\szxrefline}[1]{line~{#1}}
-%\newcommand{\szxreflines}[2]{lines~{#1}{#2}}
+%\newcommand{\xrefLine}[1]{Line~{#1}}
+%\newcommand{\xrefLines}[2]{Lines~{#1}{#2}}
+%\newcommand{\xrefline}[1]{line~{#1}}
+%\newcommand{\xreflines}[2]{lines~{#1}{#2}}
 
 
 
